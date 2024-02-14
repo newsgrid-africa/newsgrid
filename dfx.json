@@ -1,0 +1,30 @@
+{
+  "canisters": {
+    "newsgrid_backend": {
+      "candid": "src/newsgrid_backend/newsgrid_backend.did",
+      "package": "newsgrid_backend",
+      "type": "rust"
+    },
+    "newsgrid_frontend": {
+      "dependencies": [
+        "newsgrid_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/newsgrid_frontend/src/index.html"
+      },
+      "source": [
+        "src/newsgrid_frontend/assets",
+        "dist/newsgrid_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

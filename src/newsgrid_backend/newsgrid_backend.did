@@ -1,0 +1,47 @@
+type Account = record {
+  owner : principal;
+  tokens : TruthTokens;
+  profile : UserProfile;
+};
+type Article = record {
+  id : nat64;
+  upvotes : TruthTokens;
+  content : ArticleContent;
+  voters : vec principal;
+  author : principal;
+  timestamp : nat64;
+  downvotes : TruthTokens;
+  ranking : int32;
+};
+type ArticleContent = record {
+  title : text;
+  "text" : text;
+  canister_id : principal;
+};
+type ArticleSearchResult = variant { Invalid : text; Article : Article };
+type DaoStableStorage = record {
+  articles : vec Article;
+  accounts : vec Account;
+  secret_key : text;
+};
+type Result = variant { Ok : principal; Err : text };
+type Result_1 = variant { Ok : Article; Err : text };
+type Result_2 = variant { Ok : text; Err : text };
+type TruthTokens = record { amount : nat64 };
+type UserProfile = record {
+  firstname : text;
+  username : text;
+  email : text;
+  lastname : text;
+};
+type Vote = variant { Up; Down };
+service : (DaoStableStorage) -> {
+  add_user : (principal, UserProfile, text) -> (Result);
+  check_truthtoken_balance : () -> (TruthTokens) query;
+  create_article : (ArticleContent) -> (Result_1);
+  get_article : (nat64) -> (ArticleSearchResult) query;
+  list_articles : () -> (vec Article) query;
+  list_articles_sorted : () -> (vec Article) query;
+  list_users : () -> (vec Account) query;
+  vote : (Vote, nat64) -> (Result_2);
+}
